@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 #include <string>
 
 //テクスチャコンバーター
@@ -26,7 +27,7 @@ private:
 	/// </summary>
 	/// <param name="mString">マルチバイト文字列</param>
 	/// <returns>ワイド文字列</returns>
-	static std::wstring ConvertMultiByteStringToWideString(const std::string& mString);
+	static std::vector<wchar_t> ConvertMultiByteStringToWideString(const std::string& mString);
 
 };
 

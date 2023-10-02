@@ -1,6 +1,6 @@
 #include <cstdio>
 #include <cstdlib>
-//#include <cstdint>
+#include <cstdint>
 #include <DirectXTex.h>
 #include "TextureConverter.h"
 
@@ -13,7 +13,7 @@ enum Argument
 	NumArgument
 };
 
-int main(int argc, char* argv[])
+int main(int32_t argc, char* argv[])
 {
 	assert(argc >= NumArgument);
 
@@ -29,14 +29,6 @@ int main(int argc, char* argv[])
 
 	//COMライブラリの終了
 	CoUninitialize();
-
-	//for(int i = 0; i < argc; i++)
-	//{
-	//	//文字列argvのi版を表示
-	//	printf(argv[i]);
-	//	//改行
-	//	printf("\n");
-	//}
 
 	system("pause");
 	return 0;
