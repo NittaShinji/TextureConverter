@@ -27,7 +27,18 @@ private:
 	/// </summary>
 	/// <param name="mString">マルチバイト文字列</param>
 	/// <returns>ワイド文字列</returns>
-	static std::vector<wchar_t> ConvertMultiByteStringToWideString(const std::string& mString);
+	static std::wstring ConvertMultiByteStringToWideString(const std::string& mString);
+
+	/// <summary>
+	/// フォルダパスとファイル名を分離する
+	/// </summary>
+	/// <param name="filePath">ファイルパス</param>
+	void SeparateFilePath(const std::wstring& filePath);
+
+	/// <summary>
+	/// DDSテクスチャとしてファイル書き出し
+	/// </summary>
+	void SaveDDSTextureToFile();
 
 private:
 
@@ -35,5 +46,12 @@ private:
 	DirectX::TexMetadata metadata_;
 	//画像イメージのコンテナ
 	DirectX::ScratchImage scratchImage_;
+
+	//ディレクトリパス
+	std::wstring directoryPath_;
+	//ファイル名
+	std::wstring fileName_;
+	//ファイル拡張子
+	std::wstring fileExt_;
 };
 
