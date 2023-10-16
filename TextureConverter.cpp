@@ -1,5 +1,6 @@
 #include "TextureConverter.h"
-#include <DirectXTex.h>
+
+using namespace DirectX;
 
 void TextureConverter::ConvertTextureWICToDDS(const std::string& filepath)
 {
@@ -11,6 +12,11 @@ void TextureConverter::LoadWICTextureFromFile(const std::string& filePath)
 {
 	//ファイルパスをワイド文字列に変換
 	std::vector<wchar_t> wfilePath = ConvertMultiByteStringToWideString(filePath);
+
+	//WICテクスチャのロード
+	HRESULT result = LoadFromWICFile(wfilePath.data(), WIC_FLAGS_NONE, &metadata_, scratchImage_);
+
+	assert(SUCCEEDED(result));
 }
 
 std::vector<wchar_t> TextureConverter::ConvertMultiByteStringToWideString(const std::string& mString)
