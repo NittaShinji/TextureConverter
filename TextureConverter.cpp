@@ -2,12 +2,22 @@
 
 using namespace DirectX;
 
-void TextureConverter::ConvertTextureWICToDDS(const std::string& filepath)
+void TextureConverter::ConvertTextureWICToDDS(const std::string& filepath, int numOptions, char* options[])
 {
 	//テクスチャファイルを読み込む
 	LoadWICTextureFromFile(filepath);
 	//DDS形式に変換して書き出す
-	SaveDDSTextureToFile();
+	SaveDDSTextureToFile(numOptions, options);
+}
+
+void TextureConverter::OutputUsage()
+{
+	printf("画像ファイルをWIC形式からDDS形式に変換します。\n");
+	printf("\n");	//空白行
+	printf("TextureConverter [ドライブ:][パス][ファイル名]\n");
+	printf("\n");	//空白行
+	printf("[ドライブ:][パス][ファイル名]: 変換したいWIC形式の画像ファイルを指定します。\n");
+
 }
 
 void TextureConverter::LoadWICTextureFromFile(const std::string& filePath)
@@ -85,7 +95,7 @@ void TextureConverter::SeparateFilePath(const std::wstring& filePath)
 
 }
 
-void TextureConverter::SaveDDSTextureToFile()
+void TextureConverter::SaveDDSTextureToFile(int numOptions, char* options[])
 {
 	ScratchImage mipChain;
 
