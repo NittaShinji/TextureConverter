@@ -14,10 +14,11 @@ void TextureConverter::OutputUsage()
 {
 	printf("画像ファイルをWIC形式からDDS形式に変換します。\n");
 	printf("\n");	//空白行
-	printf("TextureConverter [ドライブ:][パス][ファイル名]\n");
+	printf("TextureConverter [ドライブ:][パス][ファイル名] [-ml level]\n");
 	printf("\n");	//空白行
 	printf("[ドライブ:][パス][ファイル名]: 変換したいWIC形式の画像ファイルを指定します。\n");
-
+	printf("\n");	//空白行
+	printf("[-ml level]: ミップレベルを指定します。0を指定すると1×1までのフルミップマップチェーンを生成します。\n");
 }
 
 void TextureConverter::LoadWICTextureFromFile(const std::string& filePath)
@@ -99,11 +100,24 @@ void TextureConverter::SaveDDSTextureToFile(int numOptions, char* options[])
 {
 	ScratchImage mipChain;
 
+	size_t mipLevel = 0;
+
+	//ミニマップレベル指定を検索
+	for(int32_t i = 0; i < numOptions; i++)
+	{
+		if(std::string(options[i]) == "-ml")
+		{
+			//ミップレベル指定
+			mipLevel = std::stoi(options[i + 1]);
+			break;
+		}
+	}
+
 	//ミップマップ生成
 	HRESULT result;
 	result = GenerateMipMaps(
 		scratchImage_.GetImages(), scratchImage_.GetImageCount(), scratchImage_.GetMetadata(),
-		TEX_FILTER_DEFAULT, 0, mipChain);
+		TEX_FILTER_DEFAULT, mipLevel, mipChain);
 	if(SUCCEEDED(result))
 	{
 		//イメージとメタデータを、ミニマップ版で置き換える
