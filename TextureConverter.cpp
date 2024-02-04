@@ -127,10 +127,33 @@ void TextureConverter::SaveDDSTextureToFile(int numOptions, char* options[])
 
 	//圧縮形式に変換
 	ScratchImage converted;
-	result = Compress(scratchImage_.GetImages(), scratchImage_.GetImageCount(), metadata_,
-		DXGI_FORMAT_BC7_UNORM_SRGB, TEX_COMPRESS_BC7_QUICK | TEX_COMPRESS_SRGB_OUT |
-		TEX_COMPRESS_PARALLEL, 1.0f, converted);
 
+	size_t convertNum = 0;
+	//ミニマップレベル指定を検索
+	for(int32_t i = 0; i < numOptions; i++)
+	{
+		if(std::string(options[i]) == "-bc")
+		{
+			convertNum = std::stoi(options[i + 1]);
+			break;
+		}
+	}
+
+	//ミップレベル指定
+	if(convertNum == 1)
+	{
+		result = Compress(scratchImage_.GetImages(), scratchImage_.GetImageCount(), metadata_,
+			DXGI_FORMAT_BC1_UNORM_SRGB, TEX_COMPRESS_DITHER | TEX_COMPRESS_SRGB_OUT |
+			TEX_COMPRESS_PARALLEL, 1.0f, converted);
+	}
+	else
+	{
+		result = Compress(scratchImage_.GetImages(), scratchImage_.GetImageCount(), metadata_,
+			DXGI_FORMAT_BC7_UNORM_SRGB, TEX_COMPRESS_BC7_QUICK | TEX_COMPRESS_SRGB_OUT |
+			TEX_COMPRESS_PARALLEL, 1.0f, converted);
+	}
+
+	
 	if(SUCCEEDED(result))
 	{
 		scratchImage_ = std::move(converted);

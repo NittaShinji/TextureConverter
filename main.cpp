@@ -36,6 +36,8 @@ int main(int32_t argc, char* argv[])
 	int numOptions = argc - NumArgument;
 	//オプションの配列
 	char** options = argv + NumArgument;
+	
+
 
 	//テクスチャ変換
 	converter.ConvertTextureWICToDDS(argv[kFilePath],numOptions,options);
